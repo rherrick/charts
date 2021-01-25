@@ -20,7 +20,7 @@
 .menu li a, .dropbtn {
   display: inline-block;
   text-align: center;
-  padding: 14px 16px;
+  padding: 10px 12px;
   text-decoration: none;
 }
 .menu li a:hover, .dropdown:hover .dropbtn {
@@ -73,7 +73,7 @@
     <a href="javascript:void(0)" class="dropbtn">{{ collection.label | capitalize }}</a>
     <div class="dropdown-content">
     {%- for doc in collection.docs -%}
-      <a href="{{ doc.url }}">{{ doc.title | capitalize }}</a>
+      <a href="{{ doc.url }}">{{ doc.title }}</a>
     {%- endfor -%}
     </div>
   </li>
