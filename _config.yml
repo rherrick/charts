@@ -11,3 +11,14 @@ markdown: kramdown
 theme: jekyll-theme-cayman 
 plugins:
   - jekyll-feed
+
+collections_dir: docs
+collections:
+  contributing:
+    output: true
+  deployments:
+    output: true
+  development:
+    output: true
+  operations:
+    output: true
