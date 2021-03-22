@@ -21,6 +21,9 @@ spec:
         checksum/config: {{ include (print $.Template.BasePath "/secret.yaml") . | sha256sum }}
       labels:
         {{- include "xnat-web.selectorLabels" . | nindent 8 }}
+        {{- if and .Values.aws.enabled .Values.aws.podLabels}}
+        {{- toYaml .Values.aws.podLabels | nindent 8 }}
+        {{- end }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
@@ -29,6 +32,10 @@ spec:
       serviceAccountName: {{ include "xnat-web.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      {{- if and .Values.aws.enabled .Values.aws.nodeSelector }}
+      nodeSelector:
+      {{- toYaml .Values.aws.nodeSelector | nindent 8 }}
+      {{- end }}  
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
@@ -47,6 +54,8 @@ spec:
             httpGet:
               path: /app/template/Login.vm#!
               port: http
+            initialDelaySeconds: 3
+            periodSeconds: 3
           #startupProbe:
           #  httpGet:
           #    path: /
@@ -55,20 +64,27 @@ spec:
             {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
             - name: auth
-              mountPath: "/k8s-secrets/auth"
+              {{- /* mountPath: "/k8s-secrets/auth" */}}
+              mountPath: "/data/xnat/home/config/auth"
               readOnly: true
             - name: config
-              mountPath: "/k8s-secrets/config"
+              {{- /* mountPath: "/k8s-secrets/config" */}}
+              mountPath: "/data/xnat/home/config"
               readOnly: true
+            {{- /*
             {{- range $name, $c := .Values.persistence }}
             {{- if $c.size }}
             - mountPath: {{ $c.mountPath | quote }}
               name: {{ $name | quote }}
             {{- end }}
             {{- end }}
+            */}}
             {{- range $name, $c := .Values.volumes }}
             - mountPath: {{ $c.mountPath | quote }}
               name: {{ $name | quote }}
+              {{- if $c.subPath }}
+              subPath: {{ $c.subPath }}
+              {{- end }}
             {{- end }}
       {{- if and .Values.plugin.download .Values.persistence.plugins }}
       initContainers:
@@ -112,6 +128,7 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+  {{- /*
   volumeClaimTemplates:
     {{- range $name, $c := .Values.persistence }}
     {{- if $c.size }}
@@ -128,3 +145,4 @@ spec:
             storage: {{ $c.size }}
     {{- end }}
     {{- end }}
+  */}}

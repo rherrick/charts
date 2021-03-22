@@ -1,0 +1,11 @@
+{{- if .Values.aws.enabled }}
+{{- $context := . -}}
+{{- range $vol, $c := .Values.volumes }}
+kind: StorageClass
+apiVersion: storage.k8s.io/v1
+metadata:
+  name: {{ $vol }}-{{ include "xnat-web.fullname" $context }}
+provisioner: efs.csi.aws.com
+---
+{{- end }}
+{{- end }}

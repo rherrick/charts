@@ -15,7 +15,9 @@ spec:
   resources:
     requests:
       storage: {{ $c.size | quote }}
-  {{- if $c.storageClassName }}
+  {{- if $.Values.aws.enabled }}
+  storageClassName: {{ $name }}-{{ include "xnat-web.fullname" $context }}
+  {{- else if $c.storageClassName }}
   storageClassName: {{ $c.storageClassName }}
   {{- end }}
   selector:

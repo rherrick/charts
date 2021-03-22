@@ -1,3 +1,7 @@
+{{ $root := "/" }}
+{{- if .Values.aws.enabled -}}
+{{- $root = "/*" -}}
+{{- end -}}
 {{- if .Values.ingress.enabled -}}
 {{- $fullName := include "xnat-web.fullname" . -}}
 {{- $svcPort := .Values.service.port -}}
@@ -28,10 +32,16 @@ spec:
   {{- end }}
   rules:
     {{- range .Values.ingress.hosts }}
-    - host: {{ . | quote }}
+    - host: {{ keys . | first | quote }}
       http:
         paths:
-          - path: "/"
+          {{- range $path, $namePort := values . | first }}
+          - path: {{ $path }}
+            backend:
+              serviceName: {{ .serviceName }}
+              servicePort: {{ .servicePort }}
+          {{- end }}
+          - path: {{ $root }}
             backend:
               serviceName: {{ $fullName }}
               servicePort: {{ $svcPort }}

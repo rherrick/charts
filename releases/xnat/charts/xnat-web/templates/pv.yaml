@@ -1,0 +1,32 @@
+{{- if .Values.aws.enabled }}
+{{- $context := . -}}
+{{- $driver := .Values.aws.storage.csiDriver }}
+{{- $efsSystemId := .Values.aws.storage.efsSystemId }}
+{{- $archiveAccessPointId := .Values.aws.storage.archiveAccessPointId }}
+{{- $prearchiveAccessPointId := .Values.aws.storage.prearchiveAccessPointId }}
+{{- range $vol, $c := .Values.volumes }}
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: {{ $vol }}-{{ include "xnat-web.fullname" $context }}
+spec:
+  capacity:
+    storage: {{ $c.size }}
+  volumeMode: Filesystem
+  accessModes:
+    - {{ $c.accessMode }}
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: {{ $vol }}-{{ include "xnat-web.fullname" $context }}
+  claimRef:
+    name: {{ $vol }}-{{ include "xnat-web.fullname" $context }}
+    namespace: {{ $context.Release.Namespace }}
+  csi:
+    driver: {{ $driver }}
+    {{- if eq $vol "archive" }}
+    volumeHandle: {{ $efsSystemId }}::{{ $archiveAccessPointId }}
+    {{- else if eq $vol "prearchive" }}
+    volumeHandle: {{ $efsSystemId }}::{{ $prearchiveAccessPointId}}
+    {{- end }}
+---
+{{- end }}
+{{- end }}

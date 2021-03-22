@@ -112,7 +112,7 @@ openid-provider-{{ $provider }}.properties: |
   auto.enabled=true
   auto.verified=true
   disableUsernamePasswordLogin=false
-  siteUrl={{ index $.Values.ingress.hosts 0 }}
+  siteUrl={{ index $.Values.ingress.hosts 0 | keys | first }}
   preEstablishedRedirUri=/openid-login
   {{- if eq $provider "aaf" }}
   {{- include "xnat-web.plugin.openid.provider.aaf" $ | indent 2 }}

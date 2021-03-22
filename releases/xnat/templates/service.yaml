@@ -10,6 +10,8 @@ spec:
 {{- if .Values.postgresqlExternalName }}
   type: ExternalName
   externalName: {{ .Values.postgresqlExternalName }}
+  ports:
+    - port: 5432
 {{- else }}
   type: ClusterIP
   ports:
