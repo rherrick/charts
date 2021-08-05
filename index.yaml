@@ -3,43 +3,28 @@ entries:
   ctp:
   - apiVersion: v2
     appVersion: "2020090901"
-    created: "2021-01-20T03:09:13.302585326Z"
+    created: "2021-08-05T17:54:49.861751004Z"
     description: Clinical Trial Processor (CTP), provides all the processing features of a MIRC site.
-    digest: ba2a1f67354fa267c8d104a8cf89af57e9b14c2136c27915ddf440bc952fb932
+    digest: f2660677e64cc1e88872065889924d54add4cca4f9dade0587ad53739f25fa1c
     name: ctp
     type: application
     urls:
-    - https://github.com/Australian-Imaging-Service/charts/releases/download/ctp-0.1.0/ctp-0.1.0.tgz
-    version: 0.1.0
+    - https://github.com/rherrick/charts/releases/download/ctp-0.2.0/ctp-0.2.0.tgz
+    version: 0.2.0
   xnat:
   - apiVersion: v2
     appVersion: 1.7.6
-    created: "2021-02-09T14:32:35.546395586Z"
+    created: "2021-08-05T17:54:49.996626557Z"
     dependencies:
     - condition: postgresqlEnabled
       name: postgresql
       repository: https://charts.bitnami.com/bitnami
       version: ~9.8.7
     description: XNAT imaging informatics platform
-    digest: 28d51515337d141c38c8ccf5f9599adc167645a4c0804425f190c60e4492cf67
+    digest: a623f881252deade9974102f364805e9c290546f13983625c9fb8b2b3194f720
     name: xnat
     type: application
     urls:
-    - https://github.com/Australian-Imaging-Service/charts/releases/download/xnat-0.3.1/xnat-0.3.1.tgz
-    version: 0.3.1
-  - apiVersion: v2
-    appVersion: 1.7.6
-    created: "2021-01-20T03:09:13.452469482Z"
-    dependencies:
-    - condition: postgresqlEnabled
-      name: postgresql
-      repository: https://charts.bitnami.com/bitnami
-      version: ~9.8.7
-    description: XNAT imaging informatics platform
-    digest: 39809f47d4e010afd4ea95e276d020bc0e9bf2e42c601cfdcbb7a179fe36558a
-    name: xnat
-    type: application
-    urls:
-    - https://github.com/Australian-Imaging-Service/charts/releases/download/xnat-0.3.0/xnat-0.3.0.tgz
-    version: 0.3.0
-generated: "2021-01-20T03:09:13.164140707Z"
+    - https://github.com/rherrick/charts/releases/download/xnat-0.5.1/xnat-0.5.1.tgz
+    version: 0.5.1
+generated: "2021-08-05T17:54:49.722842922Z"
